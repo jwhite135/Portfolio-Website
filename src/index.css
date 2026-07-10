@@ -11,6 +11,13 @@
     background: #1e1e1e;
     color: #cccccc;
   }
+
+  /* Visible keyboard focus for all interactive elements (mouse clicks stay clean). */
+  :focus-visible {
+    outline: 2px solid #007acc;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
 }
 
 @layer components {
@@ -72,6 +79,8 @@
     font-family: 'JetBrains Mono', monospace;
     transition: all 0.2s ease;
     position: relative;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
   .vscode-tab:hover {
@@ -163,34 +172,6 @@
     border-bottom: 1px solid #3c3c3c;
   }
 
-  .vscode-menu-bar {
-    background: #333333;
-    color: #cccccc;
-    padding: 4px 8px;
-    font-size: 12px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .vscode-menu-item {
-    background: transparent;
-    color: #cccccc;
-    border: none;
-    padding: 4px 8px;
-    cursor: pointer;
-    font-size: 12px;
-    font-family: 'JetBrains Mono', monospace;
-    transition: background 0.2s ease;
-  }
-
-  .vscode-menu-item:hover {
-    background: #404040;
-  }
-
-  .vscode-panel {
-    background: #252526;
-    border-top: 1px solid #3c3c3c;
-  }
-
   .vscode-activity-bar {
     background: #333333;
     width: 48px;
@@ -226,15 +207,6 @@
     border-radius: 10px;
     font-size: 10px;
     font-weight: bold;
-  }
-
-  .vscode-tooltip {
-    background: #252526;
-    color: #cccccc;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   .vscode-notification {
@@ -293,7 +265,7 @@
     -webkit-text-fill-color: #cccccc !important;
   }
 
-  /* Disable Chrome autocomplete dropdown */
+  /* Hide the browser's contact-autofill button and Edge's clear/expand buttons */
   input::-webkit-contacts-auto-fill-button {
     visibility: hidden;
     display: none !important;
@@ -302,28 +274,8 @@
     right: 0;
   }
 
-  /* Additional autocomplete prevention */
-  input[autocomplete="off"]::-webkit-contacts-auto-fill-button {
-    display: none !important;
-  }
-
-  /* Edge-specific autocomplete prevention */
   input::-ms-clear,
   input::-ms-expand {
     display: none;
-  }
-
-  /* Force disable autocomplete for Edge */
-  input[autocomplete="off"] {
-    -ms-autocomplete: none;
-  }
-
-  /* Additional Edge autocomplete prevention */
-  input[type="text"][autocomplete="off"],
-  input[type="email"][autocomplete="off"],
-  textarea[autocomplete="off"] {
-    -ms-autocomplete: none;
-    -webkit-autocomplete: none;
-    autocomplete: none;
   }
 } 

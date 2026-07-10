@@ -23,7 +23,7 @@ const About: React.FC = () => {
           <span className="vscode-keyword">public class</span> <span className="vscode-class">About</span> &#123;
         </h2>
         <p className="text-[#cccccc] text-lg max-w-2xl">
-          <span className="vscode-comment">// Get to know me better and understand what drives my passion for technology</span>
+          <span className="vscode-comment">{'// Get to know me better and understand what drives my passion for technology'}</span>
         </p>
       </motion.div>
 
@@ -56,9 +56,9 @@ const About: React.FC = () => {
                 <span className="vscode-string">$</span> <span className="vscode-function">cat</span> <span className="vscode-string">about.txt</span>
               </div>
               <div className="text-[#cccccc] ml-4">
-                <span className="vscode-comment">// Passionate developer and junior at the University of South Carolina</span><br/>
-                <span className="vscode-comment">// Specializing in Java, Spring Boot, and modern web technologies</span><br/>
-                <span className="vscode-comment">// Always learning and exploring new technologies</span>
+                <span className="vscode-comment">{'// Passionate developer and rising senior at the University of South Carolina'}</span><br/>
+                <span className="vscode-comment">{'// Full-stack engineer (Java, Spring Boot, React) with a focus on AI/ML research'}</span><br/>
+                <span className="vscode-comment">{'// Currently researching LLMs and deep learning for network intrusion detection'}</span>
               </div>
             </div>
           </div>
@@ -118,7 +118,7 @@ const About: React.FC = () => {
                 <span className="vscode-string">"Java"</span>, <span className="vscode-string">"Spring Boot"</span>, <span className="vscode-string">"React"</span>,
               </div>
               <div className="ml-8">
-                <span className="vscode-string">"Python"</span>, <span className="vscode-string">"AWS"</span>, <span className="vscode-string">"Docker"</span>
+                <span className="vscode-string">"Python"</span>, <span className="vscode-string">"TensorFlow"</span>, <span className="vscode-string">"C++"</span>
               </div>
               <div className="ml-4">&#125;;
               </div>

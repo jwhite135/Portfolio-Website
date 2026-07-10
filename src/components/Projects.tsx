@@ -36,6 +36,15 @@ const Projects: React.FC<ProjectsProps> = ({ onProjectClick }) => {
       projectName: 'cockbots'
     },
     {
+      title: 'ClassFinder - Cloud-Native Class Scheduling Platform',
+      description: 'A full-stack class scheduling and enrollment platform hosted entirely on Microsoft Azure, built with a 6-person agile team for Capgemini. Handles real-time enrollment, multi-role user management, and automated data processing.',
+      image: '📅',
+      technologies: ['Azure SQL', 'C#', '.NET Core 8.0', 'Azure Service Bus', 'Azure Function Apps', 'Azure Logic Apps', 'Azure Data Factory'],
+      githubUrl: '#',
+      featured: true,
+      projectName: 'classfinder'
+    },
+    {
       title: 'Portfolio Website',
       description: 'You\'re looking at it (⚆ᗝ⚆)',
       image: '💼',
@@ -77,7 +86,7 @@ const Projects: React.FC<ProjectsProps> = ({ onProjectClick }) => {
           <span className="vscode-keyword">public class</span> <span className="vscode-class">Projects</span> &#123;
         </h2>
         <p className="text-[#cccccc] text-lg max-w-2xl">
-          <span className="vscode-comment">// A showcase of my recent work and technical achievements</span>
+          <span className="vscode-comment">{'// A showcase of my recent work and technical achievements'}</span>
         </p>
       </motion.div>
 

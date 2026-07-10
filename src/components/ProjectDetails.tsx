@@ -1,53 +1,84 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, Clock, Users } from 'lucide-react';
 
 interface ProjectDetailsProps {
   projectName: string;
 }
+
+// Render inline **bold** markers within a line of text.
+const renderInline = (text: string): React.ReactNode =>
+  text.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+    part.startsWith('**') && part.endsWith('**') ? (
+      <strong key={i} className="font-semibold text-white">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      part
+    )
+  );
+
+// Lightweight renderer for the Markdown-ish longDescription (## headings,
+// - bullets, **bold**), so the copy displays cleanly instead of showing raw markers.
+const renderRichText = (text: string): React.ReactNode =>
+  text.split('\n').map((line, i) => {
+    const trimmed = line.trim();
+    if (trimmed === '') {
+      return <div key={i} className="h-2" />;
+    }
+    if (trimmed.startsWith('## ')) {
+      return (
+        <h3 key={i} className="vscode-class font-semibold text-base mt-4 mb-1">
+          {trimmed.slice(3)}
+        </h3>
+      );
+    }
+    if (trimmed.startsWith('- ')) {
+      return (
+        <div key={i} className="flex gap-2 ml-1 mb-1">
+          <span className="text-[#007acc] mt-0.5">•</span>
+          <span>{renderInline(trimmed.slice(2))}</span>
+        </div>
+      );
+    }
+    return (
+      <p key={i} className="mb-1">
+        {renderInline(trimmed)}
+      </p>
+    );
+  });
 
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({ projectName }) => {
   const projects = {
     'codecollab': {
       title: 'CodeCollab - Real-Time Collaborative Coding Platform',
       description: 'A comprehensive real-time collaborative coding platform built with Spring Boot and React, featuring WebSocket-based collaboration and Monaco Editor integration.',
-      longDescription: `CodeCollab is an innovative real-time collaborative coding platform that enables multiple developers to simultaneously edit code files with live synchronization. Built with enterprise-grade architecture, this project aims to be the "Google Docs for developers" - a comprehensive platform where teams can write, review, and collaborate on code in real-time.
+      longDescription: `CodeCollab is a real-time collaborative coding platform that lets multiple developers edit the same files simultaneously with live synchronization — the "Google Docs for code" idea, applied to a real editor. I built it to dig into the hard parts of real-time collaboration: presence, shared cursors, and conflict handling on top of a familiar editing experience.
 
 ## Project Overview
-This fully realized platform transforms the way developers collaborate by providing real-time code editing capabilities with advanced features like presence indicators, cursor tracking, and operational transformation algorithms. The system ensures seamless multi-user editing experience while maintaining code integrity and performance. The platform includes comprehensive version control, advanced collaboration tools, and enterprise-grade features that make it a complete solution for team development.
+The platform pairs the Monaco editor (the engine behind VS Code) with a WebSocket backend so an edit from one user shows up instantly for everyone in the same session. Around the editor it adds authentication, workspace organization, and persistence so sessions and projects survive across visits.
 
 ## Key Features
-- **Real-Time Collaboration**: WebSocket-based live synchronization with multiple users
-- **Monaco Editor Integration**: VS Code's editor engine with custom collaboration features
-- **Presence Indicators**: Visual feedback showing who's currently editing
-- **Cursor Tracking**: Real-time display of other users' cursor positions
-- **Conflict Resolution**: Operational transformation algorithms for seamless collaboration
-- **Secure Authentication**: JWT-based authentication with Spring Security
-- **Workspace Management**: Organized project structure with team permissions
-- **Git Integration**: Complete version control with branching, merging, and collaborative code review
-- **Advanced Collaboration Tools**: Inline comments, code review system, and team communication
-- **Multi-language Support**: Intelligent language detection and syntax highlighting for 20+ programming languages
+- **Real-Time Collaboration**: WebSocket-based live synchronization across multiple users
+- **Monaco Editor Integration**: VS Code's editor engine with custom collaboration hooks
+- **Presence & Cursor Tracking**: See who's in a session and where their cursors are
+- **Conflict Handling**: Operational-transformation-based merging for concurrent edits
+- **Secure Authentication**: JWT-based auth backed by Spring Security
+- **Workspace Management**: Organized projects with team-based permissions
+- **Multi-language Editing**: Syntax highlighting for the wide range of languages Monaco supports
 
 ## Technical Architecture
-- **Backend**: Spring Boot 3.2+ with Java 17, Spring Security, WebSocket with STOMP
-- **Database**: PostgreSQL 15+ with JPA/Hibernate, Redis 7+ for caching
-- **Frontend**: React 18+ with TypeScript, Monaco Editor, Redux Toolkit
-- **Real-time Communication**: WebSocket with STOMP protocol, Socket.io client
-- **Security**: JWT tokens, role-based access control
+- **Backend**: Spring Boot with Java 17, Spring Security, WebSocket over STOMP
+- **Database**: PostgreSQL with JPA/Hibernate; Redis for caching and session state
+- **Frontend**: React with TypeScript, Monaco Editor, Redux Toolkit
+- **Security**: JWT tokens with role-based access control
 - **Build & Deployment**: Maven, Docker, Docker Compose
 
-## Development Highlights
-- **Real-Time Collaboration**: Implemented WebSocket-based real-time collaboration with presence indicators and cursor tracking
-- **Enterprise Security**: Built secure authentication system using JWT tokens and Spring Security
-- **Scalable Architecture**: Designed scalable database architecture with PostgreSQL and Redis
-- **Advanced Editor**: Integrated Monaco Editor with custom collaboration features
-- **Performance Optimization**: Implemented proper indexing and caching strategies
-
-## Advanced Features
-- **Git Integration**: Complete version control system with branching, merging, and collaborative code review workflows
-- **Advanced Collaboration Tools**: Inline comments, code review system, and integrated team communication features
-- **Multi-language Support**: Intelligent language detection, syntax highlighting, and language-specific development tools for 20+ programming languages
-- **Enterprise Features**: Advanced caching strategies, load balancing, and microservices architecture supporting enterprise-level usage`,
+## What I Learned
+- Designing a WebSocket/STOMP messaging layer for low-latency collaborative editing
+- Applying operational transformation to keep concurrent edits consistent
+- Building JWT + Spring Security authentication and modeling team permissions
+- Using Redis to cache session state and take load off the database`,
       technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'Redis', 'React', 'TypeScript', 'WebSocket', 'Monaco Editor', 'Spring Security', 'JWT'],
       githubUrl: 'https://github.com/jwhite135/CodeCollab',
       liveUrl: '#',
@@ -88,7 +119,7 @@ This application transforms the traditional music learning experience by providi
       liveUrl: '#',
       duration: '4 months',
       teamSize: '5 members',
-                 achievements: ['Developed with 5-member Agile team using Scrum methodology', 'Implemented comprehensive unit testing with JUnit', 'Created intuitive JavaFX user interface for music learning']
+      achievements: ['Developed with 5-member Agile team using Scrum methodology', 'Implemented comprehensive unit testing with JUnit', 'Created intuitive JavaFX user interface for music learning']
     },
     'cockbots': {
       title: 'CockBots - Social Media Application',
@@ -123,6 +154,43 @@ Developed during CockyHacks 2024 hackathon, this application demonstrates the in
       duration: '32 hours',
       teamSize: 'Hackathon Team',
       achievements: ['Won "Best in AI" Award', 'Won "Best in Implementation" Award', '90%+ AI accuracy achieved']
+    },
+    'classfinder': {
+      title: 'ClassFinder - Cloud-Native Class Scheduling Platform',
+      description: 'A full-stack class scheduling and enrollment platform hosted entirely on Microsoft Azure, built with a 6-person agile team.',
+      longDescription: `ClassFinder is a fully cloud-native class scheduling and enrollment platform built by a 6-person agile team in partnership with Capgemini. It supports real-time class enrollment, multi-role user management (students, teachers, admins), and automated data processing across the entire Azure stack.
+
+## Project Overview
+Developed as a collaborative team project, ClassFinder demonstrates end-to-end full-stack development on Microsoft Azure, from database design to REST API development to cloud-native event automation. The platform was presented to Capgemini executives and peers as a complete, working application.
+
+## Key Features
+- **Real-Time Enrollment**: Live class enrollment with prerequisite and conflict validation
+- **Multi-Role Access**: Distinct views and permissions for students, teachers, and admins
+- **Catalog Management**: Centralized course catalog backed by Azure SQL
+- **Automated Data Pipelines**: Event-driven data ingestion and enrollment processing across the Azure stack
+
+## Technical Architecture
+- **Database**: Azure SQL Database with a schema supporting real-time enrollment, multi-role users, and catalog data
+- **Backend APIs**: REST APIs built in C# (.NET Core 8.0) for enrollment CRUD operations, prerequisite/conflict validation, and real-time sync
+- **Cloud Automation**: Azure Service Bus, Function Apps, Logic Apps, and Azure Data Factory for automated data ingestion and event-driven enrollment processing
+- **Deployment**: Fully cloud-native, hosted entirely on Microsoft Azure
+
+## Development Highlights
+- Led SQL development on a 6-person agile team, designing and maintaining the Azure SQL Database schema
+- Built and integrated REST APIs in C# (.NET Core 8.0) for enrollment, validation, and real-time data synchronization
+- Contributed to cloud architecture using Azure Service Bus, Function Apps, Logic Apps, and Azure Data Factory
+- Presented the completed application to Capgemini executives and peers, demonstrating end-to-end functionality`,
+      technologies: ['Azure SQL', 'C#', '.NET Core 8.0', 'Azure Service Bus', 'Azure Function Apps', 'Azure Logic Apps', 'Azure Data Factory'],
+      githubUrl: '#',
+      liveUrl: '#',
+      duration: 'Semester',
+      teamSize: '6 members',
+      achievements: [
+        'Led SQL development on a 6-person agile team, designing and maintaining an Azure SQL Database schema supporting real-time class enrollment, multi-role user management, and catalog data',
+        'Built and integrated REST APIs in C# (.NET Core 8.0) to handle enrollment CRUD operations, prerequisite/conflict validation, and real-time data synchronization across student, teacher, and admin views',
+        'Contributed to cloud architecture utilizing Azure Service Bus, Function Apps, Logic Apps, and Azure Data Factory to automate data ingestion and trigger enrollment event processing',
+        'Presented completed application to Capgemini executives and peers, demonstrating end-to-end functionality of a full-stack class scheduling and enrollment platform hosted entirely on Microsoft Azure'
+      ]
     },
     'portfoliowebsite': {
       title: 'Portfolio Website',
@@ -260,7 +328,19 @@ The solver uses a backtracking algorithm with intelligent cell selection, starti
         <p className="text-[#cccccc] opacity-80">{project.description}</p>
       </div>
 
-
+      {/* Project Meta */}
+      <div className="flex flex-wrap gap-3 mb-6">
+        <div className="flex items-center gap-2 px-3 py-2 bg-[#2a2d2e] rounded border border-[#3c3c3c] text-sm">
+          <Clock className="w-4 h-4 text-[#007acc]" />
+          <span className="text-[#6a6a6a]">Duration:</span>
+          <span className="text-[#cccccc]">{project.duration}</span>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-2 bg-[#2a2d2e] rounded border border-[#3c3c3c] text-sm">
+          <Users className="w-4 h-4 text-[#007acc]" />
+          <span className="text-[#6a6a6a]">Team:</span>
+          <span className="text-[#cccccc]">{project.teamSize}</span>
+        </div>
+      </div>
 
       {/* Technologies */}
       <div className="mb-6">
@@ -281,8 +361,8 @@ The solver uses a backtracking algorithm with intelligent cell selection, starti
       <div className="mb-6">
         <h2 className="text-lg font-semibold text-[#cccccc] mb-3">Project Details</h2>
         <div className="vscode-terminal p-4">
-          <div className="whitespace-pre-line text-[#cccccc] leading-relaxed">
-            {project.longDescription}
+          <div className="text-[#cccccc] leading-relaxed">
+            {renderRichText(project.longDescription)}
           </div>
         </div>
       </div>

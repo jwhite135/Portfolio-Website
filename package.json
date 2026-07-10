@@ -8,7 +8,6 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "autoprefixer": "^10.4.14",
-    "emailjs-com": "^3.2.0",
     "framer-motion": "^10.12.0",
     "lucide-react": "^0.263.1",
     "postcss": "^8.4.21",

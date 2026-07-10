@@ -12,37 +12,48 @@ const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const EMAILJS_SERVICE_ID = 'service_yd9c699';
+  const EMAILJS_TEMPLATE_ID = 'template_vffrgvf';
+  const EMAILJS_PUBLIC_KEY = 'ALHC7UWtOIeyVm-hs';
 
   useEffect(() => {
-    emailjs.init("ALHC7UWtOIeyVm-hs");
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setErrorMessage('');
 
     try {
       const result = await emailjs.send(
-        'service_yd9c699', 
-        'template_vffrgvf',
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
         {
           from_name: formData.name,
           from_email: formData.email,
+          reply_to: formData.email,
           subject: formData.subject,
           message: formData.message,
         },
-        'ALHC7UWtOIeyVm-hs'
+        { publicKey: EMAILJS_PUBLIC_KEY }
       );
 
-      if (result.status === 200) {
-        setSubmitStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch (error) {
-      console.error('Email send error:', error);
+      // emailjs.send() rejects on failure, so reaching here means it succeeded.
+      console.log('EmailJS response:', result.status, result.text);
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error: unknown) {
+      // EmailJS rejects with an object shaped like { status, text }.
+      const detail =
+        (error as { text?: string })?.text ||
+        (error instanceof Error ? error.message : '') ||
+        'Unknown error — check the browser console.';
+      console.error('EmailJS send failed:', error);
+      setErrorMessage(detail);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -99,14 +110,11 @@ const Contact: React.FC = () => {
                   <input
                     type="text"
                     id="name"
-                    name="contact_name"
+                    name="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck="false"
+                    autoComplete="name"
                     className="vscode-input w-full"
                     placeholder="Your name"
                   />
@@ -118,14 +126,11 @@ const Contact: React.FC = () => {
                   <input
                     type="email"
                     id="email"
-                    name="contact_email"
+                    name="email"
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck="false"
+                    autoComplete="email"
                     className="vscode-input w-full"
                     placeholder="your.email@example.com"
                   />
@@ -139,14 +144,11 @@ const Contact: React.FC = () => {
                 <input
                   type="text"
                   id="subject"
-                  name="contact_subject"
+                  name="subject"
                   value={formData.subject}
                   onChange={handleChange}
                   required
                   autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck="false"
                   className="vscode-input w-full"
                   placeholder="What's this about?"
                 />
@@ -158,14 +160,10 @@ const Contact: React.FC = () => {
                 </label>
                 <textarea
                   id="message"
-                  name="contact_message"
+                  name="message"
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  autoComplete="off"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck="false"
                   rows={6}
                   className="vscode-input w-full resize-none"
                   placeholder="Tell me about your project..."
@@ -220,7 +218,10 @@ const Contact: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-4 p-3 bg-red-900/20 border border-red-500/30 rounded text-red-400 text-sm"
                 >
-                  ✗ Failed to send message. Please try again or contact me directly.
+                  ✗ Failed to send message. Please try again or reach out via LinkedIn.
+                  {errorMessage && (
+                    <span className="block mt-1 text-red-300/80 text-xs">Details: {errorMessage}</span>
+                  )}
                 </motion.div>
               )}
             </form>

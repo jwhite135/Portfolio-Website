@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code, Database, Cloud } from 'lucide-react';
+import { Code, Layers, Wrench, Lightbulb } from 'lucide-react';
 
 const Skills: React.FC = () => {
   const skillCategories = [
@@ -17,7 +17,7 @@ const Skills: React.FC = () => {
     },
     {
       title: 'Frameworks & Libraries',
-      icon: <Database className="w-6 h-6" />,
+      icon: <Layers className="w-6 h-6" />,
       skills: [
         { name: 'Spring Boot', level: 85 },
         { name: 'React', level: 75 },
@@ -28,7 +28,7 @@ const Skills: React.FC = () => {
     },
     {
       title: 'Development Tools',
-      icon: <Cloud className="w-6 h-6" />,
+      icon: <Wrench className="w-6 h-6" />,
       skills: [
         { name: 'Git', level: 90 },
         { name: 'JUnit', level: 80 },
@@ -39,7 +39,7 @@ const Skills: React.FC = () => {
     },
     {
       title: 'Concepts & Methodologies',
-      icon: <Code className="w-6 h-6" />,
+      icon: <Lightbulb className="w-6 h-6" />,
       skills: [
         { name: 'Object-Oriented Design', level: 85 },
         { name: 'Agile/Scrum', level: 80 },
@@ -63,7 +63,7 @@ const Skills: React.FC = () => {
           <span className="vscode-keyword">public class</span> <span className="vscode-class">Skills</span> &#123;
         </h2>
         <p className="text-[#cccccc] text-lg max-w-2xl">
-          <span className="vscode-comment">// A comprehensive overview of my technical expertise and capabilities</span>
+          <span className="vscode-comment">{'// A comprehensive overview of my technical expertise and capabilities'}</span>
         </p>
       </motion.div>
 
