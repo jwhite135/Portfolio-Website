@@ -1,0 +1,17 @@
+{
+  "short_name": "Josiah White",
+  "name": "Josiah White — Portfolio",
+  "description": "Portfolio of Josiah White, Software Engineer and Computer Science student at the University of South Carolina.",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1e1e1e",
+  "background_color": "#1e1e1e"
+}
