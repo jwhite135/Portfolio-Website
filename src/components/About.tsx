@@ -4,17 +4,19 @@ import { MapPin, Calendar, GraduationCap } from 'lucide-react';
 import PageHeader from './PageHeader';
 import { fadeUp, fadeIn, stagger } from '../lib/motion';
 
+// Every figure here is one a reader could check against the resume; the
+// previous set ("15+ projects", "12+ technologies") was unverifiable filler.
 const stats = [
-  { label: 'Years coding', value: '3+' },
-  { label: 'Projects shipped', value: '15+' },
-  { label: 'Technologies', value: '12+' },
-  { label: 'GPA', value: '4.0' },
+  { label: 'Cumulative GPA', value: '3.92' },
+  { label: 'Expected graduation', value: '2027' },
+  { label: 'AI research fellowship', value: '$5,000' },
+  { label: 'Network packets analyzed', value: '900K+' },
 ];
 
 const facts = [
   { icon: MapPin, text: 'Based in Columbia, SC' },
   { icon: Calendar, text: 'Available for new opportunities' },
-  { icon: GraduationCap, text: 'B.S. Computer Science, class of 2027' },
+  { icon: GraduationCap, text: 'B.S. Computer Science, Honors College — May 2027' },
 ];
 
 /** The three window-control dots plus a filename, shared by every panel. */
@@ -62,9 +64,10 @@ const About: React.FC = () => (
               <span className="vscode-string">about.txt</span>
             </div>
             <div className="ml-4 space-y-0.5">
-              <p className="vscode-comment">{'// Rising senior at the University of South Carolina'}</p>
-              <p className="vscode-comment">{'// Full-stack engineer (Java, Spring Boot, React) focused on AI/ML research'}</p>
-              <p className="vscode-comment">{'// Currently researching LLMs and deep learning for network intrusion detection'}</p>
+              <p className="vscode-comment">{'// Senior at the University of South Carolina, Honors College'}</p>
+              <p className="vscode-comment">{'// Engineer across the stack and the data layer — Python, Java, SQL, C++'}</p>
+              <p className="vscode-comment">{'// Fine-tuning deep learning models for network intrusion detection,'}</p>
+              <p className="vscode-comment">{'// and researching political bias in large language models'}</p>
             </div>
           </div>
         </div>
@@ -103,12 +106,13 @@ const About: React.FC = () => (
               <span className="vscode-string">"Columbia, SC"</span>;{'\n'}
               {'  '}<span className="vscode-keyword">private String</span>[]{' '}
               <span className="vscode-function">skills</span> = &#123;{'\n'}
-              {'    '}<span className="vscode-string">"Java"</span>,{' '}
-              <span className="vscode-string">"Spring Boot"</span>,{' '}
-              <span className="vscode-string">"React"</span>,{'\n'}
               {'    '}<span className="vscode-string">"Python"</span>,{' '}
-              <span className="vscode-string">"TensorFlow"</span>,{' '}
-              <span className="vscode-string">"C++"</span>{'\n'}
+              <span className="vscode-string">"Java"</span>,{' '}
+              <span className="vscode-string">"C++"</span>,{' '}
+              <span className="vscode-string">"SQL"</span>,{'\n'}
+              {'    '}<span className="vscode-string">"PyTorch"</span>,{' '}
+              <span className="vscode-string">"Hugging Face"</span>,{' '}
+              <span className="vscode-string">"Power BI"</span>{'\n'}
               {'  '}&#125;;{'\n'}
               {'  '}<span className="vscode-keyword">private String</span>{' '}
               <span className="vscode-function">education</span> ={' '}

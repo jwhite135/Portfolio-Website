@@ -23,10 +23,31 @@ interface ProjectCard {
 
 const projects: ProjectCard[] = [
   {
+    title: 'Class Finder',
+    headline: 'Cloud-native class scheduling',
+    description:
+      'Class scheduling and enrolment running entirely on Azure, built by a six-person Agile team in a course taught by Capgemini engineers. I led SQL development and presented the finished platform to Capgemini executives.',
+    glyph: '▤',
+    technologies: ['C#', '.NET 8', 'Azure SQL', 'Service Bus', 'Function Apps', 'Data Factory'],
+    featured: true,
+    projectName: 'classfinder',
+  },
+  {
+    title: 'CockBots',
+    headline: 'AI bot detection, CockyHacks 2024',
+    description:
+      'A social platform where a TensorFlow image classifier separates bot accounts from real ones. I owned data collection and the imaging pipeline. Won Best in AI and Best in Implementation.',
+    glyph: '</>',
+    technologies: ['Python', 'TensorFlow', 'PHP', 'SQL'],
+    githubUrl: 'https://github.com/ethanhammer/Hackathon-Cock-Bots',
+    featured: true,
+    projectName: 'cockbots',
+  },
+  {
     title: 'CodeCollab',
     headline: 'Real-time collaborative editing',
     description:
-      'Multiple developers editing the same file at once — Monaco on the front end, a Spring Boot WebSocket backend handling presence, shared cursors and conflict resolution.',
+      'Multiple developers editing the same file at once — the Monaco editor on the front end, a Spring Boot WebSocket backend syncing changes and tracking who is in a session.',
     glyph: '{ }',
     technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'Redis', 'React', 'TypeScript', 'WebSocket'],
     githubUrl: 'https://github.com/jwhite135/CodeCollab',
@@ -37,33 +58,12 @@ const projects: ProjectCard[] = [
     title: 'KeyQuest',
     headline: 'Music learning application',
     description:
-      'A JavaFX app for reading, practising and writing sheet music. Built with a five-person Agile team on two-week sprints, with JUnit coverage throughout.',
+      'A JavaFX app for reading, practising and writing sheet music. I led a five-person Agile team to an MVP in six weeks, and solved the timing problem of syncing notation rendering to audio playback.',
     glyph: '♪',
     technologies: ['Java', 'JavaFX', 'JUnit', 'UML'],
     githubUrl: 'https://github.com/jwhite135/KeyQuest',
-    featured: true,
+    featured: false,
     projectName: 'keyquest',
-  },
-  {
-    title: 'CockBots',
-    headline: 'AI-moderated social feed',
-    description:
-      'A social app where a TensorFlow classifier decides what gets posted: images containing bots are published, everything else is filtered out. Built at a hackathon.',
-    glyph: '</>',
-    technologies: ['PHP', 'SQL', 'Python', 'TensorFlow'],
-    githubUrl: 'https://github.com/ethanhammer/Hackathon-Cock-Bots',
-    featured: true,
-    projectName: 'cockbots',
-  },
-  {
-    title: 'ClassFinder',
-    headline: 'Cloud-native class scheduling',
-    description:
-      'Class scheduling and enrolment running entirely on Azure, built with a six-person Agile team for Capgemini. Real-time enrolment, multi-role access, automated data processing.',
-    glyph: '▤',
-    technologies: ['C#', '.NET 8', 'Azure SQL', 'Service Bus', 'Function Apps', 'Data Factory'],
-    featured: true,
-    projectName: 'classfinder',
   },
   {
     title: 'Portfolio Website',

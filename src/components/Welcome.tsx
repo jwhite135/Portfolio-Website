@@ -9,9 +9,9 @@ interface WelcomeProps {
 
 const starts: { tab: TabId; icon: React.ReactNode; label: string; hint: string }[] = [
   { tab: 'about', icon: <User className="w-4 h-4" />, label: 'About', hint: 'who I am' },
-  { tab: 'experience', icon: <Briefcase className="w-4 h-4" />, label: 'Experience', hint: 'where I have worked' },
-  { tab: 'skills', icon: <Code className="w-4 h-4" />, label: 'Skills', hint: 'what I build with' },
-  { tab: 'projects', icon: <Folder className="w-4 h-4" />, label: 'Projects', hint: '7 repositories' },
+  { tab: 'experience', icon: <Briefcase className="w-4 h-4" />, label: 'Experience', hint: 'research & internships' },
+  { tab: 'skills', icon: <Code className="w-4 h-4" />, label: 'Skills', hint: 'languages & tooling' },
+  { tab: 'projects', icon: <Folder className="w-4 h-4" />, label: 'Projects', hint: '7 builds' },
   { tab: 'contact', icon: <Mail className="w-4 h-4" />, label: 'Contact', hint: 'send a message' },
 ];
 
@@ -51,7 +51,7 @@ const Welcome: React.FC<WelcomeProps> = ({ onOpen }) => (
         </h1>
         <p className="mt-3 text-lg text-fg-muted">
           <span className="vscode-comment">
-            {'// Software engineer · CS + AI research at the University of South Carolina'}
+            {'// Software engineer · AI/ML research · University of South Carolina Honors'}
           </span>
         </p>
       </motion.div>

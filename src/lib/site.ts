@@ -30,6 +30,7 @@ const LANGUAGES: Record<string, string> = {
   py: 'Python',
   tsx: 'TypeScript JSX',
   cpp: 'C++',
+  cs: 'C#',
   html: 'HTML',
   md: 'Markdown',
 };
@@ -63,10 +64,10 @@ export const SECTIONS: TabMeta[] = [
 
 /** Project detail pages, in explorer order. */
 export const PROJECT_FILES: TabMeta[] = [
+  file('classfinder', 'ClassFinder.cs', 'Class Finder', '/projects/classfinder'),
+  file('cockbots', 'CockBots.py', 'CockBots', '/projects/cockbots'),
   file('codecollab', 'CodeCollab.java', 'CodeCollab', '/projects/codecollab'),
   file('keyquest', 'KeyQuest.java', 'KeyQuest', '/projects/keyquest'),
-  file('classfinder', 'ClassFinder.tsx', 'ClassFinder', '/projects/classfinder'),
-  file('cockbots', 'CockBots.py', 'CockBots', '/projects/cockbots'),
   file('portfoliowebsite', 'PortfolioWebsite.tsx', 'Portfolio Website', '/projects/portfoliowebsite'),
   file('minesweeper', 'Minesweeper.cpp', 'Minesweeper', '/projects/minesweeper'),
   file('sudokusolver', 'SudokuSolver.html', 'Sudoku Solver', '/projects/sudokusolver'),
@@ -112,6 +113,7 @@ export const fileGlyph = (fileName: string): { text: string; className: string }
   if (fileName.endsWith('.py')) return { text: 'Py', className: 'text-[#6bb3e8] text-[10px]' };
   if (fileName.endsWith('.tsx')) return { text: 'TS', className: 'text-[#4daafc] text-[10px]' };
   if (fileName.endsWith('.cpp')) return { text: 'C', className: 'text-[#9d7bd8]' };
+  if (fileName.endsWith('.cs')) return { text: 'C#', className: 'text-[#68b98a] text-[10px]' };
   if (fileName.endsWith('.html')) return { text: '<>', className: 'text-[#e8a33d] text-[10px]' };
   return { text: '·', className: 'text-fg-muted' };
 };

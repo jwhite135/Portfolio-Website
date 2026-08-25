@@ -100,39 +100,47 @@ const experiences: ExperienceEntry[] = [
     title: 'Data & Business Applications Intern',
     company: 'CEEUS Inc.',
     location: 'Columbia, SC',
-    period: 'May 2026 – Present',
-    description: 'Developing data and business application solutions as part of a summer internship. Working with real-world data systems and contributing to business process improvements through software development.',
-    technologies: ['Python', 'SQL', 'Data Analysis', 'Business Applications'],
+    period: 'May 2026 – Aug 2026',
+    description:
+      'Built the reporting layer for sales and warehouse operations, replacing manual one-off reports with self-service dashboards, and prototyped an interactive training tool for new inventory staff.',
+    technologies: ['Power BI', 'SQL', 'ERP/CRM', 'Data Modeling', 'Stakeholder Analysis'],
     achievements: [
-      'Contributing to data pipeline development and business application features',
-      'Collaborating with cross-functional teams to deliver software solutions',
-      'Applying data analysis and engineering skills to real-world business problems',
+      'Built Power BI dashboards surfacing sales and warehouse KPIs — regional revenue, product-line performance, month-over-month trends, order fulfillment speed and pick/pack accuracy — for cross-departmental stakeholders',
+      'Replaced manual, one-off reporting with self-service, auto-refreshing dashboards, cutting recurring report-request turnaround for sales and warehouse teams',
+      'Wrote and optimized SQL queries, views and stored procedures against the ERP/CRM database, joining across orders, inventory, customers and shipments to power dashboard pipelines and ad hoc requests',
+      'Designed and prototyped an interactive training tool for new inventory staff covering FIFO/LIFO, reorder points, SKU tracking and cycle counting, then iterated on it from new-hire feedback and wrote the accompanying training guide',
+      'Partnered with sales, warehouse operations and finance to translate informal asks into defined KPIs, data sources and visualizations',
     ],
   },
   {
-    title: 'AI Provost Fellow',
-    company: 'USC Honors College',
+    title: 'Provost Undergraduate AI Fellow',
+    company: 'University of South Carolina',
     location: 'Columbia, SC',
     period: 'Mar 2026 – Present',
-    description: 'Awarded a competitive $5,000 fellowship through the Honors College Provost AI Fellowship program to research cultural bias in AI and large language models, studying how LLM outputs reflect and reinforce cultural assumptions through literature review, experimental design, and technical analysis.',
-    technologies: ['Python', 'LLMs', 'NLP', 'AI Ethics', 'Research'],
+    description:
+      'Researching inherent political and societal bias in large language models, and the measurement problem that makes it hard to detect reliably.',
+    technologies: ['Python', 'LLMs', 'Llama 4', 'Experimental Design', 'AI Ethics'],
     achievements: [
-      'Awarded a competitive $5,000 fellowship to conduct AI research on cultural bias in large language models',
-      'Studying cultural bias in LLM outputs through literature review, experimental design, and technical analysis',
-      'Working toward a research paper and presentation on findings',
+      'Awarded a competitive $5,000 fellowship to research inherent political and societal bias in large language models',
+      'Designed a forced-choice survey administered to a local LLM (Llama 4 Scout), covering political and societal issues, to test whether responses reveal a directional bias',
+      'Ran the survey across varying temperature and top-k sampling settings, randomizing question order across sessions to isolate and control for positional bias',
+      'Identified positional bias — response bias driven by answer ordering rather than content — as a major confound in LLM bias evaluation, and am developing an averaging method to separate true attitude signal from ordering artifacts',
+      'Selected to present findings as a poster at the AI Provost Symposium',
     ],
   },
   {
-    title: 'Machine Learning & AI Developer',
+    title: 'Software Engineer',
     company: 'Center for Industry Solutions',
     location: 'Columbia, SC',
     period: 'Nov 2025 – Present',
-    description: 'Contributing to Cerberus, an anomaly-based intrusion detection system identifying cyberattacks, including day-zero threats, through deep learning on network traffic data.',
-    technologies: ['Python', 'Hugging Face', 'Deep Learning', 'Cybersecurity'],
+    description:
+      'Own the data and model side of Cerberus, an anomaly-based intrusion detection system that identifies cyberattacks, including day-zero threats, from network traffic.',
+    technologies: ['Python', 'Hugging Face', 'PyTorch', 'Apache Arrow', 'Deep Learning', 'Cybersecurity'],
     achievements: [
-      'Contribute to Cerberus, an anomaly-based intrusion detection system identifying cyberattacks, including day-zero threats',
-      'Preprocess and analyze 900K+ network flow packets across 8 traffic classes to support model training and evaluation',
-      'Fine-tune a pretrained deep learning model (NetFound) on cybersecurity traffic data using Hugging Face and Python-based tooling',
+      'Own the end-to-end data pipeline for Cerberus: parsing raw, day-long PCAP network captures into packet-level records and converting them to Apache Arrow for ingestion by NetFound, a pretrained deep learning model',
+      'Fine-tune NetFound on curated cybersecurity traffic spanning 900K+ packets across 8 traffic classes, including day-zero threat scenarios, using Hugging Face and Python tooling',
+      'Solved the core data-engineering problem of converting full-day PCAP captures into a packet-level, model-ingestible format at scale',
+      'Selected to present ongoing project work at the Center for Industry Solutions opening event',
     ],
   },
   {
@@ -140,40 +148,44 @@ const experiences: ExperienceEntry[] = [
     company: 'University of South Carolina',
     location: 'Columbia, SC',
     period: 'Aug 2025 – Present',
-    description: 'Supporting computer science education by leading laboratory sessions and mentoring students in fundamental programming concepts. Collaborating with faculty to develop and enhance course materials while providing personalized guidance to help students master Java programming, object-oriented design, and problem-solving methodologies.',
-    technologies: ['Java', 'Leadership', 'Teaching'],
+    description:
+      'Supporting computer science education by leading laboratory sessions and mentoring students in fundamental programming concepts, while collaborating with faculty on course materials.',
+    technologies: ['Java', 'Object-Oriented Design', 'Mentorship'],
     achievements: [
-      'Supervise labs and mentor 50+ students in Java fundamentals, problem-solving, and algorithmic thinking',
-      'Guide students through debugging and core OOP concepts; enhance exercises through faculty collaboration',
-      'Grade assignments and provide feedback to improve programming and design skills',
+      'Supervise labs and mentor 50+ students in Java fundamentals, problem-solving and algorithmic thinking',
+      'Guide students through debugging and core OOP concepts, and enhance lab exercises through faculty collaboration',
+      'Grade assignments and give feedback aimed at improving programming and design skills',
     ],
   },
   {
-    title: 'Undergraduate Research Assistant — Honors College Research Grant',
+    title: 'Undergraduate Research Assistant',
     company: 'University of South Carolina',
     location: 'Columbia, SC',
-    period: 'Aug 2025 – May 2026',
-    description: 'Received competitive research grant to develop a MIPS assembly interpreter within the Godot engine using C++. Designed a virtual machine to parse and execute MIPS instructions, modeling registers, memory, and instruction flow within a game engine environment.',
-    technologies: ['C++', 'MIPS Assembly', 'Godot Engine', 'Virtual Machine', 'Systems Programming'],
+    period: 'Aug 2025 – Present',
+    description:
+      'Grant-funded solo project building a RISC-V instruction set interpreter in C++, designed as a teaching tool for low-level computing and computer architecture.',
+    technologies: ['C++', 'RISC-V', 'Assembly', 'Virtual Machines', 'Systems Programming'],
     achievements: [
-      'Received competitive research grant to develop a MIPS assembly interpreter within the Godot engine using C++',
-      'Designed a virtual machine to parse and execute MIPS instructions, modeling registers, memory, and instruction flow within a game engine environment',
-      'Explored integration of low-level systems concepts with game development, laying groundwork for a MIPS-based game engine',
+      'Secured a competitive research grant to independently design and implement a RISC-V instruction set interpreter in C++, covering 120+ general assembly instructions alongside memory and register operations',
+      'Engineered a virtual machine for real-time instruction flow simulation, built to support student learning in low-level computing and computer architecture education',
+      "Designed the interpreter for eventual integration into USC's Introduction to Computer Architecture course curriculum",
     ],
   },
 ];
 
 const leadership: ExperienceEntry[] = [
   {
-    title: 'Product Manager — Heritage Library AI Initiative',
+    title: 'Product Manager — heritagelib.org',
     company: 'Kappa Theta Pi',
     location: 'Hilton Head, SC (Remote)',
-    period: 'Jun 2026 – Present',
-    description: "Leading a nonprofit technology partnership with the Heritage Library in Hilton Head to add AI-driven components to their website, as part of Kappa Theta Pi's ongoing nonprofit project initiatives.",
-    technologies: ['AI', 'Project Management', 'Web Development'],
+    period: 'May 2026 – Aug 2026',
+    description:
+      "Product lead on a nonprofit partnership with the Heritage Library, adding retrieval-augmented search over an archive that had never been machine-readable.",
+    technologies: ['RAG', 'LLMs', 'Python', 'Document Processing', 'WordPress'],
     achievements: [
-      'Leading product coordination for an AI integration project with the Heritage Library',
-      'Scoping requirements and project plan in partnership with library stakeholders',
+      "Implemented an AI retrieval-augmented generation solution on a nonprofit's WordPress site, making a 6,000+ document archive searchable through a chatbot interface",
+      'Built a document preprocessing pipeline that converted handwritten documents into plain text and generated alt text for images, enabling the RAG system to ingest and retrieve previously unsearchable archival content',
+      "Served as product lead on the integration, balancing accessibility goals against the nonprofit's existing WordPress site and content constraints",
     ],
   },
   {
@@ -181,32 +193,50 @@ const leadership: ExperienceEntry[] = [
     company: 'Kappa Theta Pi',
     location: 'Columbia, SC',
     period: 'Aug 2025 – Dec 2025',
-    description: 'Led product coordination for the fraternity website, managing a 5-person development team through Jira ticketing, sprint planning, and task assignment.',
-    technologies: ['Jira', 'GitHub', 'Product Management', 'Web Development'],
+    description:
+      'Led product coordination for the fraternity website, directing a 5-person development team while contributing to the codebase directly.',
+    technologies: ['TypeScript', 'Vite', 'Node.js', 'Neon', 'Jira', 'GitHub'],
     achievements: [
-      'Led product coordination for the fraternity website, managing a 5-person development team through Jira ticketing, sprint planning, and task assignment',
-      'Managed the GitHub repository, reviewed pull requests, resolved merge conflicts, and contributed bug fixes to support site reliability',
+      'Led product coordination for the fraternity website — built on Vite, TypeScript, Node.js and Neon — managing a 5-person development team through Jira ticketing, sprint planning and task assignment',
+      "Directed engineering priorities and participated in major design decisions as the project's product manager",
+      'Contributed hands-on to development when needed, shipping small fixes and unblocking the team to hold deadlines',
+      'Managed the GitHub repository, reviewed pull requests and resolved merge conflicts to support site reliability',
     ],
   },
   {
-    title: 'Co-Founder & Executive Secretary',
-    company: 'Kappa Theta Pi — South Carolina',
+    title: 'Executive Secretary & Founding Member',
+    company: 'Kappa Theta Pi',
     location: 'Columbia, SC',
-    period: 'Mar 2025 – Apr 2026',
-    description: "Co-founded USC's first professional technology fraternity, growing the organization from 9 to 48+ members and building partnerships with 7 nonprofits to apply technical skills to real community challenges.",
+    period: 'Mar 2025 – Present',
+    description:
+      "Co-founded USC's first professional technology fraternity and helped scale it from a founding cohort into a chapter running projects with nonprofits across the state.",
     technologies: ['Leadership', 'Nonprofit Partnerships', 'Mentorship', 'Event Planning'],
     achievements: [
-      "Co-founded USC's first professional technology fraternity, growing the organization from 9 to 48+ members, launching 9 projects, and building partnerships with 7 nonprofits",
-      'Designed and led nonprofit-focused technology projects each semester, creating opportunities for members to apply technical skills to real community challenges',
-      'Built onboarding, mentorship, and technical programming initiatives, including workshops, leadership pathways, and project-based involvement',
-      'Managed organizational record keeping and coordinated logistics for 35+ events per semester, helping guide chapter growth and long-term direction as a founding member',
+      "Co-founded USC's first professional technology fraternity, growing the organization to 50+ members, 9 projects and partnerships with 10+ nonprofits",
+      "Authored the organization's governing constitution and helped establish its foundational structure as a founding member",
+      'Delivered 100% internship and project placement for the graduating junior and senior class of 2026 over summer 2026, through partnerships including Dominion Energy and Capgemini and a workshop hosted by QNX',
+      'Designed and maintained a points and attendance tracking system used to monitor member engagement across meetings and events',
+      'Built onboarding, mentorship and technical programming initiatives, including recurring workshops and hackathon partnerships',
     ],
   },
 ];
 
 const education = [
-  { key: 'degree', label: 'Bachelor of Science in Computer Science', type: 'String' },
-  { key: 'institution', label: 'University of South Carolina', type: 'String' },
+  { key: 'degree', label: 'Bachelor of Science in Computer Science' },
+  { key: 'minor', label: 'Data Science' },
+  { key: 'institution', label: 'University of South Carolina' },
+  { key: 'program', label: 'South Carolina Honors College' },
+];
+
+const coursework = [
+  'Data Structures & Algorithms',
+  'Applied Machine Learning',
+  'Advanced Machine Learning',
+  'Database System Design (Honors)',
+  'Software Engineering',
+  'Operating Systems',
+  'Azure Cloud Native Development',
+  'Math Foundations of Data Science & ML',
 ];
 
 const Experience: React.FC = () => (
@@ -242,9 +272,9 @@ const Experience: React.FC = () => (
           aria-label="Education details"
         >
           <code>
-            {education.map(({ key, label, type }) => (
+            {education.map(({ key, label }) => (
               <React.Fragment key={key}>
-                <span className="vscode-keyword">private static final {type}</span>{' '}
+                <span className="vscode-keyword">private static final String</span>{' '}
                 <span className="vscode-function">{key}</span> ={' '}
                 <span className="vscode-string">"{label}"</span>;{'\n'}
               </React.Fragment>
@@ -254,10 +284,26 @@ const Experience: React.FC = () => (
             <span className="vscode-number">2027</span>;{'\n'}
             <span className="vscode-keyword">private static final double</span>{' '}
             <span className="vscode-function">gpa</span> ={' '}
-            <span className="vscode-number">4.0</span>;
+            <span className="vscode-number">3.92</span>;{'\n'}
+            <span className="vscode-comment">{'// President\'s List / Dean\'s List every term to date'}</span>
           </code>
         </pre>
       </div>
+
+      <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-fg-muted mt-8 mb-3">
+        Relevant coursework
+      </h3>
+      <ul className="flex flex-wrap gap-2">
+        {coursework.map((course) => (
+          <li
+            key={course}
+            className="px-3 py-1.5 bg-surface rounded text-sm border border-line
+                       hover:border-line-hi transition-colors duration-150"
+          >
+            <span className="vscode-string">"{course}"</span>
+          </li>
+        ))}
+      </ul>
     </motion.section>
   </motion.div>
 );

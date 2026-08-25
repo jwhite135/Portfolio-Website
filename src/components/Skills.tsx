@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Code, Layers, Wrench, Lightbulb } from 'lucide-react';
+import { Code, Brain, BarChart3, Wrench, Award } from 'lucide-react';
 import PageHeader from './PageHeader';
 import { fadeUp, stagger, viewportOnce, EASE } from '../lib/motion';
 
@@ -9,51 +9,57 @@ const skillCategories = [
     title: 'Programming Languages',
     icon: Code,
     skills: [
-      { name: 'Java', level: 90 },
+      { name: 'Python', level: 90 },
+      { name: 'Java', level: 88 },
+      { name: 'SQL', level: 85 },
       { name: 'C++', level: 80 },
-      { name: 'Python', level: 75 },
       { name: 'JavaScript', level: 70 },
-      { name: 'SQL', level: 70 },
     ],
   },
   {
-    title: 'Frameworks & Libraries',
-    icon: Layers,
+    title: 'AI & Machine Learning',
+    icon: Brain,
     skills: [
-      { name: 'Spring Boot', level: 85 },
-      { name: 'React', level: 75 },
-      { name: 'JavaFX', level: 70 },
-      { name: 'TensorFlow', level: 70 },
-      { name: 'Qt', level: 65 },
+      { name: 'Hugging Face', level: 85 },
+      { name: 'PyTorch', level: 80 },
+      { name: 'scikit-learn', level: 75 },
+      { name: 'TensorFlow', level: 72 },
+      { name: 'LangChain', level: 68 },
     ],
   },
   {
-    title: 'Development Tools',
+    title: 'Data & Analytics',
+    icon: BarChart3,
+    skills: [
+      { name: 'Power BI', level: 85 },
+      { name: 'ETL / Data Pipelines', level: 82 },
+      { name: 'PostgreSQL', level: 78 },
+      { name: 'Azure SQL', level: 75 },
+      { name: 'Apache Arrow', level: 70 },
+    ],
+  },
+  {
+    title: 'Tools & Frameworks',
     icon: Wrench,
     skills: [
       { name: 'Git', level: 90 },
-      { name: 'JUnit', level: 80 },
-      { name: 'CMake', level: 80 },
-      { name: 'Maven', level: 75 },
-      { name: 'GitHub Projects', level: 75 },
-    ],
-  },
-  {
-    title: 'Concepts & Methodologies',
-    icon: Lightbulb,
-    skills: [
-      { name: 'Object-Oriented Design', level: 85 },
-      { name: 'Agile/Scrum', level: 80 },
-      { name: 'Unit Testing', level: 75 },
-      { name: 'Systems Programming', level: 70 },
-      { name: 'AI/ML Basics', level: 65 },
+      { name: 'Spring Boot', level: 80 },
+      { name: 'Azure', level: 78 },
+      { name: 'React', level: 75 },
+      { name: 'Docker', level: 70 },
     ],
   },
 ];
 
 const otherTechnologies = [
-  'HTML/CSS', 'UML', 'Backtracking Algorithms', 'REST APIs',
-  'MIPS Assembly', 'Godot Engine', 'TypeScript', 'Tailwind CSS',
+  'REST APIs', 'Linux', 'Jira', 'Redis', 'Neon', 'Node.js', 'TypeScript',
+  'JUnit', 'Maven', 'CMake', 'Qt', 'JavaFX', 'OpenCV', 'RISC-V Assembly',
+  'Agile/Scrum', 'UML', 'Tailwind CSS', 'WordPress',
+];
+
+const certifications = [
+  'NVIDIA Deep Learning Institute — Introduction to Deep Learning',
+  'NVIDIA Deep Learning Institute — Building RAG Agents with LLMs',
 ];
 
 const Skills: React.FC = () => (
@@ -134,6 +140,23 @@ const Skills: React.FC = () => (
         ))}
       </ul>
       <p className="mt-4" aria-hidden="true">&#125;;</p>
+    </motion.section>
+
+    <motion.section variants={fadeUp} className="mt-10" aria-labelledby="skills-certs">
+      <h2
+        id="skills-certs"
+        className="text-xs font-semibold uppercase tracking-[0.14em] text-fg-muted mb-3"
+      >
+        Certifications
+      </h2>
+      <ul className="space-y-2">
+        {certifications.map((cert) => (
+          <li key={cert} className="flex items-start gap-2.5 text-sm">
+            <Award className="w-4 h-4 text-accent-text shrink-0 mt-0.5" aria-hidden="true" />
+            <span>{cert}</span>
+          </li>
+        ))}
+      </ul>
     </motion.section>
   </motion.div>
 );
