@@ -1,9 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Github, ExternalLink, Clock, Users } from 'lucide-react';
+import { Github, ExternalLink, Clock, Users, ArrowLeft } from 'lucide-react';
+import { fadeUp, stagger } from '../lib/motion';
+import type { ProjectId } from '../lib/site';
 
 interface ProjectDetailsProps {
-  projectName: string;
+  projectName: ProjectId;
+  /** Returns to the projects index — the only way back for a deep link. */
+  onBack: () => void;
 }
 
 // Render inline **bold** markers within a line of text.
@@ -18,37 +22,60 @@ const renderInline = (text: string): React.ReactNode =>
     )
   );
 
-// Lightweight renderer for the Markdown-ish longDescription (## headings,
-// - bullets, **bold**), so the copy displays cleanly instead of showing raw markers.
-const renderRichText = (text: string): React.ReactNode =>
-  text.split('\n').map((line, i) => {
+/**
+ * Lightweight renderer for the Markdown-ish longDescription (## headings,
+ * - bullets, **bold**).
+ *
+ * Consecutive bullets are collected into a real <ul> rather than emitted as
+ * loose divs, so assistive technology announces "list, 4 items" instead of
+ * reading four unrelated paragraphs.
+ */
+const renderRichText = (text: string): React.ReactNode => {
+  const blocks: React.ReactNode[] = [];
+  let bullets: string[] = [];
+
+  const flushBullets = () => {
+    if (!bullets.length) return;
+    blocks.push(
+      <ul key={`ul-${blocks.length}`} className="space-y-1.5 mb-3">
+        {bullets.map((b) => (
+          <li key={b} className="flex gap-2.5">
+            <span className="text-accent-text mt-1 leading-none" aria-hidden="true">▸</span>
+            <span>{renderInline(b)}</span>
+          </li>
+        ))}
+      </ul>
+    );
+    bullets = [];
+  };
+
+  for (const line of text.split('\n')) {
     const trimmed = line.trim();
-    if (trimmed === '') {
-      return <div key={i} className="h-2" />;
+    if (trimmed.startsWith('- ')) {
+      bullets.push(trimmed.slice(2));
+      continue;
     }
+    flushBullets();
+    if (trimmed === '') continue;
     if (trimmed.startsWith('## ')) {
-      return (
-        <h3 key={i} className="vscode-class font-semibold text-base mt-4 mb-1">
+      blocks.push(
+        <h3 key={`h-${blocks.length}`} className="vscode-class font-semibold text-base mt-6 mb-2 first:mt-0">
           {trimmed.slice(3)}
         </h3>
       );
-    }
-    if (trimmed.startsWith('- ')) {
-      return (
-        <div key={i} className="flex gap-2 ml-1 mb-1">
-          <span className="text-[#007acc] mt-0.5">•</span>
-          <span>{renderInline(trimmed.slice(2))}</span>
-        </div>
+    } else {
+      blocks.push(
+        <p key={`p-${blocks.length}`} className="mb-3 leading-relaxed">
+          {renderInline(trimmed)}
+        </p>
       );
     }
-    return (
-      <p key={i} className="mb-1">
-        {renderInline(trimmed)}
-      </p>
-    );
-  });
+  }
+  flushBullets();
+  return blocks;
+};
 
-const ProjectDetails: React.FC<ProjectDetailsProps> = ({ projectName }) => {
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({ projectName, onBack }) => {
   const projects = {
     'codecollab': {
       title: 'CodeCollab - Real-Time Collaborative Coding Platform',
@@ -310,106 +337,133 @@ The solver uses a backtracking algorithm with intelligent cell selection, starti
 
   const project = projects[projectName as keyof typeof projects];
 
+  const backLink = (
+    <button
+      type="button"
+      onClick={onBack}
+      className="group inline-flex items-center gap-1.5 text-sm text-fg-muted hover:text-fg
+                 transition-colors duration-150"
+    >
+      <ArrowLeft
+        className="w-4 h-4 transition-transform duration-150 group-hover:-translate-x-0.5"
+        aria-hidden="true"
+      />
+      All projects
+    </button>
+  );
+
   if (!project) {
     return (
-      <div className="p-6 vscode-content">
-        <div className="vscode-terminal p-4">
-          <span className="vscode-keyword">Error:</span> Project not found
+      <div className="p-6 sm:p-8 vscode-content">
+        <div className="mb-6">{backLink}</div>
+        <div className="vscode-terminal p-5">
+          <h1 className="text-lg font-semibold text-white mb-1">Project not found</h1>
+          <p className="text-sm text-fg-muted">
+            That file isn't in this workspace. Head back to the projects list to pick another.
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 vscode-content">
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[#cccccc] mb-2">{project.title}</h1>
-        <p className="text-[#cccccc] opacity-80">{project.description}</p>
-      </div>
+    <motion.article
+      variants={stagger(0.06)}
+      initial="hidden"
+      animate="show"
+      className="p-6 sm:p-8 vscode-content max-w-4xl"
+    >
+      <motion.div variants={fadeUp} className="mb-6">
+        {backLink}
+      </motion.div>
 
-      {/* Project Meta */}
-      <div className="flex flex-wrap gap-3 mb-6">
-        <div className="flex items-center gap-2 px-3 py-2 bg-[#2a2d2e] rounded border border-[#3c3c3c] text-sm">
-          <Clock className="w-4 h-4 text-[#007acc]" />
-          <span className="text-[#6a6a6a]">Duration:</span>
-          <span className="text-[#cccccc]">{project.duration}</span>
+      <motion.header variants={fadeUp} className="mb-6">
+        <h1 className="text-2xl font-bold text-white mb-2">{project.title}</h1>
+        <p className="text-fg-muted leading-relaxed">{project.description}</p>
+      </motion.header>
+
+      {/* Project meta */}
+      <motion.dl variants={fadeUp} className="flex flex-wrap gap-2.5 mb-8">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-surface rounded border border-line text-sm">
+          <Clock className="w-4 h-4 text-accent-text shrink-0" aria-hidden="true" />
+          <dt className="text-fg-muted">Duration</dt>
+          <dd>{project.duration}</dd>
         </div>
-        <div className="flex items-center gap-2 px-3 py-2 bg-[#2a2d2e] rounded border border-[#3c3c3c] text-sm">
-          <Users className="w-4 h-4 text-[#007acc]" />
-          <span className="text-[#6a6a6a]">Team:</span>
-          <span className="text-[#cccccc]">{project.teamSize}</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-surface rounded border border-line text-sm">
+          <Users className="w-4 h-4 text-accent-text shrink-0" aria-hidden="true" />
+          <dt className="text-fg-muted">Team</dt>
+          <dd>{project.teamSize}</dd>
         </div>
-      </div>
+      </motion.dl>
 
       {/* Technologies */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-[#cccccc] mb-3">Technologies Used</h2>
-        <div className="flex flex-wrap gap-2">
-          {project.technologies.map((tech, index) => (
-            <span
-              key={index}
-              className="px-3 py-1 bg-[#2a2d2e] text-[#cccccc] rounded text-sm border border-[#3c3c3c]"
-            >
-              {tech}
-            </span>
+      <motion.section variants={fadeUp} className="mb-8" aria-labelledby="pd-tech">
+        <h2 id="pd-tech" className="text-sm font-semibold uppercase tracking-[0.12em] text-fg-muted mb-3">
+          Built with
+        </h2>
+        <ul className="flex flex-wrap gap-2">
+          {project.technologies.map((tech) => (
+            <li key={tech} className="px-3 py-1 bg-surface rounded text-sm border border-line">
+              <span className="vscode-string">"{tech}"</span>
+            </li>
           ))}
-        </div>
-      </div>
+        </ul>
+      </motion.section>
 
-      {/* Detailed Description */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-[#cccccc] mb-3">Project Details</h2>
-        <div className="vscode-terminal p-4">
-          <div className="text-[#cccccc] leading-relaxed">
-            {renderRichText(project.longDescription)}
-          </div>
-        </div>
-      </div>
+      {/* Detailed description */}
+      <motion.section variants={fadeUp} className="mb-8" aria-labelledby="pd-details">
+        <h2 id="pd-details" className="text-sm font-semibold uppercase tracking-[0.12em] text-fg-muted mb-3">
+          Project details
+        </h2>
+        <div className="vscode-terminal p-5 text-sm">{renderRichText(project.longDescription)}</div>
+      </motion.section>
 
       {/* Achievements */}
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-[#cccccc] mb-3">Key Achievements</h2>
-        <div className="space-y-2">
-          {project.achievements.map((achievement, index) => (
-            <div key={index} className="vscode-terminal p-3">
-              <span className="text-[#cccccc]">• {achievement}</span>
-            </div>
+      <motion.section variants={fadeUp} className="mb-8" aria-labelledby="pd-wins">
+        <h2 id="pd-wins" className="text-sm font-semibold uppercase tracking-[0.12em] text-fg-muted mb-3">
+          Key achievements
+        </h2>
+        <ul className="space-y-2">
+          {project.achievements.map((achievement) => (
+            <li key={achievement} className="vscode-terminal p-3.5 text-sm flex gap-2.5">
+              <span className="text-accent-text mt-0.5 leading-none" aria-hidden="true">▸</span>
+              <span>{achievement}</span>
+            </li>
           ))}
-        </div>
-      </div>
+        </ul>
+      </motion.section>
 
       {/* Links */}
-      <div className="flex gap-4">
+      <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
         {project.githubUrl !== '#' && (
-          <motion.a
+          <a
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 px-4 py-2 bg-[#3c3c3c] text-[#cccccc] rounded hover:bg-[#4c4c4c] transition-colors duration-300"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-line text-fg rounded text-sm
+                       hover:bg-line-hi transition-colors duration-150"
           >
-            <Github className="w-4 h-4" />
+            <Github className="w-4 h-4" aria-hidden="true" />
             View on GitHub
-          </motion.a>
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
         )}
         {project.liveUrl !== '#' && (
-          <motion.a
+          <a
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 px-4 py-2 bg-[#007acc] text-white rounded hover:bg-[#1177bb] transition-colors duration-300"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-white rounded text-sm
+                       hover:bg-accent-hi transition-colors duration-150"
           >
-            <ExternalLink className="w-4 h-4" />
-            Live Demo
-          </motion.a>
+            <ExternalLink className="w-4 h-4" aria-hidden="true" />
+            Live demo
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.article>
   );
 };
 
-export default ProjectDetails; 
+export default ProjectDetails;

@@ -14,8 +14,9 @@ coverage/
 *.tsbuildinfo
 
 # Env and local config
-.env
-.env.*
+# .env holds committed build defaults; only local overrides are ignored.
+.env.local
+.env.*.local
 *.local
 .claude/
 
@@ -33,6 +34,7 @@ Thumbs.db
 
 # Misc
 *.swp
+skills/
 
 # Do NOT ignore lockfiles (ensure reproducible installs)
 # package-lock.json

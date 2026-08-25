@@ -3,59 +3,106 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Mirrors tailwind.config.js so plain CSS below and utility classes in the
+       components stay in sync. Contrast-checked against WCAG 2.1 AA. */
+    --editor: #1e1e1e;
+    --chrome: #333333;
+    --panel: #252526;
+    --surface: #2a2d2e;
+    --surface-hi: #37373d;
+    --line: #3c3c3c;
+    --line-hi: #565656;
+    --fg: #cccccc;
+    --fg-muted: #a0a0a0;
+    --accent: #007acc;
+    --accent-hi: #1177bb;
+    --accent-text: #4daafc;
+
+    /* One place to retune the whole app's motion feel. */
+    --dur-fast: 120ms;
+    --dur: 180ms;
+    --dur-slow: 320ms;
+    --ease: cubic-bezier(0.2, 0, 0, 1);
+
+    color-scheme: dark;
+  }
+
   html {
     scroll-behavior: smooth;
+    /* Keep the fixed shell honest on mobile browsers with collapsing toolbars. */
+    height: 100%;
   }
+
   body {
-    font-family: 'JetBrains Mono', monospace;
-    background: #1e1e1e;
-    color: #cccccc;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--editor);
+    color: var(--fg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* The app shell owns scrolling; stop iOS rubber-banding the whole page. */
+    overscroll-behavior: none;
   }
 
   /* Visible keyboard focus for all interactive elements (mouse clicks stay clean). */
   :focus-visible {
-    outline: 2px solid #007acc;
+    outline: 2px solid var(--accent-text);
     outline-offset: 2px;
     border-radius: 2px;
+  }
+
+  /* Respect the OS "reduce motion" setting: strip transforms and long
+     transitions but keep opacity changes so state is still legible. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
 @layer components {
+  /* ---------- Explorer ---------- */
+
   .vscode-sidebar {
-    background: #252526;
-    border-right: 1px solid #3c3c3c;
+    background: var(--panel);
+    border-right: 1px solid var(--line);
   }
 
   .vscode-explorer {
-    background: #252526;
+    background: var(--panel);
   }
 
-  .vscode-file {
-    color: #cccccc;
+  .vscode-file,
+  .vscode-folder {
+    color: var(--fg);
     padding: 4px 8px;
-    border-radius: 2px;
+    border-radius: 3px;
+    /* Reserve the selected-row marker so hover/active never shift the label. */
+    border-left: 2px solid transparent;
+    transition: background var(--dur-fast) var(--ease),
+                border-color var(--dur-fast) var(--ease);
   }
 
-  .vscode-file:hover {
-    background: #2a2d2e;
+  .vscode-file:hover,
+  .vscode-folder:hover {
+    background: var(--surface);
   }
 
   .vscode-file.active {
-    background: #37373d;
-  }
-
-  .vscode-folder {
-    color: #cccccc;
-    padding: 4px 8px;
-    border-radius: 2px;
-  }
-
-  .vscode-folder:hover {
-    background: #2a2d2e;
+    background: var(--surface-hi);
+    border-left-color: var(--accent-text);
   }
 
   .vscode-icon {
-    color: #cccccc;
+    color: var(--fg);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -63,119 +110,180 @@
     min-width: 16px;
   }
 
+  /* ---------- Panels ---------- */
+
   .vscode-terminal {
-    background: #1e1e1e;
-    border: 1px solid #3c3c3c;
-    border-radius: 4px;
+    background: var(--editor);
+    border: 1px solid var(--line);
+    border-radius: 6px;
   }
 
+  /* Cards that respond to pointer without moving the layout. */
+  .vscode-card {
+    transition: border-color var(--dur) var(--ease),
+                box-shadow var(--dur) var(--ease),
+                transform var(--dur) var(--ease);
+  }
+
+  .vscode-card:hover {
+    border-color: var(--line-hi);
+    box-shadow: 0 8px 24px -12px rgb(0 0 0 / 0.7);
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vscode-card:hover {
+      transform: none;
+    }
+  }
+
+  /* ---------- Tabs ---------- */
+
   .vscode-tab {
-    background: #333333;
-    color: #cccccc;
+    background: var(--chrome);
+    color: var(--fg-muted);
     padding: 8px 16px;
     border: none;
+    border-right: 1px solid var(--line);
     cursor: pointer;
     font-size: 14px;
-    font-family: 'JetBrains Mono', monospace;
-    transition: all 0.2s ease;
+    font-family: inherit;
+    transition: background var(--dur-fast) var(--ease),
+                color var(--dur-fast) var(--ease);
     position: relative;
     flex-shrink: 0;
     white-space: nowrap;
+    scroll-snap-align: start;
   }
 
   .vscode-tab:hover {
-    background: #404040;
+    background: #3f3f3f;
+    color: var(--fg);
   }
 
-  .vscode-tab.active {
-    background: #262626;
-    color: #cccccc;
+  .vscode-tab[aria-selected='true'] {
+    background: var(--editor);
+    color: #ffffff;
   }
 
-  .vscode-tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #007acc;
-  }
+  /* The active-tab underline slides between tabs via a shared layout
+     animation in App.tsx, so no ::after rule is needed here. */
+
+  /* ---------- Content ---------- */
 
   .vscode-content {
-    background: #1e1e1e;
-    color: #cccccc;
+    background: var(--editor);
+    color: var(--fg);
   }
 
   .vscode-button {
     background: #0e639c;
-    color: white;
+    color: #ffffff;
     padding: 8px 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
-    transition: background 0.2s ease;
+    font-family: inherit;
+    transition: background var(--dur) var(--ease);
   }
 
-  .vscode-button:hover {
-    background: #1177bb;
+  .vscode-button:hover:not(:disabled) {
+    background: var(--accent-hi);
+  }
+
+  .vscode-button:disabled {
+    cursor: not-allowed;
   }
 
   .vscode-input {
-    background: #3c3c3c;
-    color: #cccccc;
-    border: 1px solid #6a6a6a;
+    background: var(--chrome);
+    color: var(--fg);
+    border: 1px solid var(--line-hi);
     padding: 8px 12px;
     border-radius: 4px;
     font-size: 14px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: inherit;
+    transition: border-color var(--dur) var(--ease),
+                box-shadow var(--dur) var(--ease);
+  }
+
+  .vscode-input::placeholder {
+    color: var(--fg-muted);
   }
 
   .vscode-input:focus {
     outline: none;
-    border-color: #007acc;
+    border-color: var(--accent-text);
+    box-shadow: 0 0 0 1px var(--accent-text);
+  }
+
+  .vscode-input[aria-invalid='true'] {
+    border-color: #f87171;
+  }
+
+  /* ---------- Scrollbars ---------- */
+
+  .vscode-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #4f4f4f transparent;
   }
 
   .vscode-scrollbar::-webkit-scrollbar {
     width: 12px;
+    height: 10px;
   }
 
   .vscode-scrollbar::-webkit-scrollbar-track {
-    background: #1e1e1e;
+    background: transparent;
   }
 
+  /* VS Code's scrollbar is a neutral overlay, not a brand-colored bar —
+     the blue one competed with the accent used for real affordances. */
   .vscode-scrollbar::-webkit-scrollbar-thumb {
-    background: #007acc;
+    background: #4f4f4f;
     border-radius: 6px;
-    border: 2px solid #1e1e1e;
+    border: 3px solid transparent;
+    background-clip: content-box;
   }
 
   .vscode-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #1177bb;
+    background: #6b6b6b;
+    background-clip: content-box;
   }
 
+  /* Tab strip scrolls horizontally only; hide its bar to match the editor. */
+  .vscode-tabstrip {
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+  }
+
+  .vscode-tabstrip::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ---------- Chrome ---------- */
+
   .vscode-status-bar {
-    background: #007acc;
-    color: white;
+    background: var(--accent);
+    color: #ffffff;
     padding: 4px 8px;
     font-size: 12px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: inherit;
   }
 
   .vscode-title-bar {
-    background: #333333;
-    color: #cccccc;
-    padding: 8px 16px;
+    background: var(--chrome);
+    color: var(--fg);
     font-size: 14px;
-    font-family: 'JetBrains Mono', monospace;
-    border-bottom: 1px solid #3c3c3c;
+    font-family: inherit;
+    border-bottom: 1px solid var(--line);
   }
 
   .vscode-activity-bar {
-    background: #333333;
+    background: var(--chrome);
     width: 48px;
-    border-right: 1px solid #3c3c3c;
+    border-right: 1px solid var(--line);
   }
 
   .vscode-activity-item {
@@ -184,85 +292,86 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #cccccc;
+    color: var(--fg-muted);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
     border: none;
     background: transparent;
+    box-shadow: inset 2px 0 0 transparent;
   }
 
   .vscode-activity-item:hover {
-    background: #404040;
+    color: var(--fg);
   }
 
   .vscode-activity-item.active {
-    background: #37373d;
-    color: #007acc;
+    color: #ffffff;
+    box-shadow: inset 2px 0 0 #ffffff;
   }
 
   .vscode-badge {
-    background: #007acc;
-    color: white;
-    padding: 2px 6px;
+    background: var(--accent);
+    color: #ffffff;
+    padding: 2px 8px;
     border-radius: 10px;
     font-size: 10px;
-    font-weight: bold;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
 
   .vscode-notification {
-    background: #2a2d2e;
-    border: 1px solid #3c3c3c;
-    border-radius: 4px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
     padding: 12px;
   }
 
   .vscode-progress {
-    background: #3c3c3c;
+    background: var(--line);
     border-radius: 2px;
     overflow: hidden;
   }
 
   .vscode-progress-bar {
-    background: #007acc;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-text) 100%);
     height: 100%;
-    transition: width 0.3s ease;
   }
 
-  .vscode-syntax-highlight {
-    font-family: 'JetBrains Mono', monospace;
+  /* ---------- Syntax tokens ---------- */
+
+  .vscode-syntax-highlight { font-family: inherit; }
+  .vscode-string   { color: #ce9178; }
+  .vscode-comment  { color: #6a9955; }
+  .vscode-keyword  { color: #569cd6; }
+  .vscode-number   { color: #b5cea8; }
+  .vscode-function { color: #dcdcaa; }
+  .vscode-class    { color: #4ec9b0; }
+
+  /* Skip link: off-screen until focused. */
+  .skip-link {
+    position: absolute;
+    left: 8px;
+    top: -60px;
+    z-index: 100;
+    background: var(--accent);
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 0 0 4px 4px;
+    font-size: 14px;
+    transition: top var(--dur) var(--ease);
   }
 
-  .vscode-string {
-    color: #ce9178;
+  .skip-link:focus {
+    top: 0;
   }
 
-  .vscode-comment {
-    color: #6a9955;
-  }
-
-  .vscode-keyword {
-    color: #569cd6;
-  }
-
-  .vscode-number {
-    color: #b5cea8;
-  }
-
-  .vscode-function {
-    color: #dcdcaa;
-  }
-
-  .vscode-class {
-    color: #4ec9b0;
-  }
-
-  /* Disable autocomplete dropdowns */
+  /* Autofill: keep Chrome's yellow wash out of the dark theme. */
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #1e1e1e inset !important;
-    -webkit-text-fill-color: #cccccc !important;
+    -webkit-box-shadow: 0 0 0 30px var(--chrome) inset !important;
+    -webkit-text-fill-color: var(--fg) !important;
   }
 
   /* Hide the browser's contact-autofill button and Edge's clear/expand buttons */
@@ -278,4 +387,4 @@
   input::-ms-expand {
     display: none;
   }
-} 
+}

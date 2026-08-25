@@ -2,40 +2,111 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--
+      Security headers live in vercel.json, not here.
+
+      Vercel serves real response headers, so the policy can use directives a
+      <meta> tag cannot express at all — frame-ancestors, X-Content-Type-Options,
+      Permissions-Policy and HSTS. Keeping a second copy in this file would mean
+      two policies to keep in step, and the browser enforces the intersection of
+      both, so a stale one here would silently break the site.
+
+      If you ever serve this build from somewhere that cannot set headers, add
+      the Content-Security-Policy back as a <meta http-equiv> here.
+    -->
+
+
     <meta name="theme-color" content="#1e1e1e" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="author" content="Josiah White" />
     <meta
       name="description"
       content="Josiah White — Software Engineer and Computer Science student at the University of South Carolina. Portfolio of projects and research across Java, Spring Boot, React, and AI/ML."
     />
+
+    <link rel="canonical" href="https://josiahawhite.com/" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Josiah White" />
     <meta property="og:title" content="Josiah White — Software Engineer" />
     <meta
       property="og:description"
       content="Software Engineer and CS student at USC. Projects and research across Java, Spring Boot, React, and AI/ML — presented in a VS Code–themed portfolio."
     />
-    <meta property="og:url" content="https://jwhite135.github.io" />
-    <!-- To enable a rich image preview, add a 1200x630 PNG to /public and set og:image to its absolute URL. -->
+    <meta property="og:url" content="https://josiahawhite.com/" />
+    <meta property="og:image" content="https://josiahawhite.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A VS Code editor window showing Josiah White's name and technology stack." />
 
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Josiah White — Software Engineer" />
     <meta
       name="twitter:description"
       content="Software Engineer and CS student at USC. Projects and research across Java, Spring Boot, React, and AI/ML."
     />
+    <meta name="twitter:image" content="https://josiahawhite.com/og-image.png" />
 
-    <title>Josiah White - Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Josiah White — Software Engineer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Only the four weights the site actually uses; the previous six-weight
+         request downloaded two faces that were never referenced. -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Josiah White",
+        "url": "https://josiahawhite.com/",
+        "image": "https://josiahawhite.com/og-image.png",
+        "jobTitle": "Software Engineer",
+        "description": "Software Engineer and Computer Science student at the University of South Carolina, working across Java, Spring Boot, React, and AI/ML research.",
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "University of South Carolina"
+        },
+        "address": {
+          "@type": "PostalPlace",
+          "addressLocality": "Columbia",
+          "addressRegion": "SC",
+          "addressCountry": "US"
+        },
+        "knowsAbout": [
+          "Java",
+          "Spring Boot",
+          "React",
+          "TypeScript",
+          "Python",
+          "Machine Learning",
+          "C++"
+        ],
+        "sameAs": [
+          "https://github.com/jwhite135",
+          "https://linkedin.com/in/josiahawhite"
+        ]
+      }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      This portfolio is a React application and needs JavaScript enabled. You can
+      still reach me at
+      <a href="mailto:jwhite010305@gmail.com">jwhite010305@gmail.com</a>, on
+      <a href="https://linkedin.com/in/josiahawhite">LinkedIn</a>, or on
+      <a href="https://github.com/jwhite135">GitHub</a>.
+    </noscript>
     <div id="root"></div>
   </body>
-</html> 
+</html>
